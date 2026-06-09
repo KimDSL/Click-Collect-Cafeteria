@@ -1,0 +1,98 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:        #0f0e0c;
+  --bg-card:   #1a1814;
+  --bg-raised: #222018;
+  --border:    rgba(255,255,255,0.07);
+  --border-hover: rgba(255,213,102,0.35);
+
+  --amber:     #f5c542;
+  --amber-dim: #c9963a;
+  --amber-glow: rgba(245,197,66,0.15);
+  --green:     #4ade80;
+  --green-dim: rgba(74,222,128,0.12);
+  --red:       #f87171;
+  --red-dim:   rgba(248,113,113,0.12);
+  --blue:      #60a5fa;
+  --blue-dim:  rgba(96,165,250,0.12);
+
+  --text-primary:   #f0ece2;
+  --text-secondary: #9b9380;
+  --text-muted:     #5a5548;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 20px;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+  --shadow-hover: 0 4px 24px rgba(245,197,66,0.12), 0 1px 3px rgba(0,0,0,0.4);
+  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg-raised); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Utility */
+.sr-only {
+  position: absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); border:0;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.35s ease both;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--bg-raised) 25%,
+    var(--bg-card)   50%,
+    var(--bg-raised) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
