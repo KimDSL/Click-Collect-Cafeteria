@@ -20,7 +20,13 @@ const orderSchema = new mongoose.Schema({
     required: [true, "Le nom de l'étudiant est requis"],
     trim: true,
   },
-  studentId: { type: String, trim: true, default: '' },
+  studentId: {
+    type: String,
+    required: [true, 'Le matricule est requis'],
+    trim: true,
+    uppercase: true,
+    match: [/^\d{2}[A-Z]{5}\d{4}$/, 'Format du matricule invalide (ex: 23ENSPM0426)'],
+  },
   ticketNumber: { type: String, unique: true },
   items: {
     type: [orderItemSchema],

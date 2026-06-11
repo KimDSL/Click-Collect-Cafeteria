@@ -42,7 +42,8 @@ export default function App() {
         <Routes>
           {role === 'student' ? (
             <>
-              <Route path="/" element={<Menu />} />
+              <Route path="/" element={<Menu onCartOpen={() => setCartOpen(true)} />} />
+              <Route path="/orders" element={<Menu onCartOpen={() => setCartOpen(true)} />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </>
           ) : (

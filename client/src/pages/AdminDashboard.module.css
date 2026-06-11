@@ -1,7 +1,45 @@
 .page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 0 24px 80px;
+}
+
+.tabNav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 32px 0 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.tabLink {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 16px;
+  position: relative;
+  transition: color var(--transition);
+}
+.tabLink:hover {
+  color: var(--text-primary);
+}
+.tabLinkActive {
+  color: var(--amber);
+}
+.tabLinkActive::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--amber);
+  border-radius: 9px;
 }
 
 .topBar {
@@ -46,8 +84,208 @@
   border-color: var(--border-hover);
   color: var(--text-primary);
 }
+.refreshBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .spin {
   animation: spin 0.8s linear infinite;
+}
+
+.paymentSection {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.paymentHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+  color: var(--amber);
+}
+
+.paymentHeader h2 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.paymentHeader p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.ticketForm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ticketInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ticketInput::placeholder {
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.ticketSearchBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--amber);
+  color: #0f0e0c;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.ticketSearchBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.ticketSearchBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lookupError {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--red-dim);
+  color: var(--red);
+  font-size: 0.85rem;
+}
+
+.lookupResult {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  animation: fadeInUp 0.25s ease both;
+}
+
+.lookupResultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.lookupTicket {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--amber);
+  letter-spacing: 0.04em;
+}
+
+.lookupStudent {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.lookupMatricule {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.lookupItems {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lookupItems li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.lookupFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lookupFooter strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.validatePayBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--green);
+  color: #0f0e0c;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.validatePayBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.validatePayBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alreadyPaid {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
 }
 
 .statsRow {
@@ -184,6 +422,11 @@
   letter-spacing: 0.05em;
   font-family: monospace;
 }
+.studentMatricule {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
 
 .statusBadge {
   display: flex;
@@ -277,4 +520,245 @@
 }
 .btnSuccess:hover:not(:disabled) {
   background: rgba(74,222,128,0.2);
+}
+
+.productsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  animation: fadeInUp 0.3s ease both;
+}
+
+.formSection {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.formSection h2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.productForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 500px) {
+  .formRow { grid-template-columns: 1fr; }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.formInput {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.formInput:focus {
+  border-color: var(--amber);
+}
+.formInput::placeholder {
+  color: var(--text-muted);
+}
+
+.formSelect {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--transition);
+  cursor: pointer;
+}
+.formSelect:focus {
+  border-color: var(--amber);
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--amber);
+  color: #0f0e0c;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all var(--transition);
+  max-width: 240px;
+}
+.addBtn:hover:not(:disabled) {
+  background: #f0b820;
+  box-shadow: 0 4px 16px rgba(245,197,66,0.3);
+}
+.addBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listSection h2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.productsTableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.productsTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.productsTable thead {
+  background: var(--bg-raised);
+}
+
+.productsTable th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
+}
+
+.productsTable td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.productsTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.productsTable tbody tr {
+  background: var(--bg-card);
+  transition: background var(--transition);
+}
+.productsTable tbody tr:hover {
+  background: var(--bg-raised);
+}
+
+.disabledRow {
+  opacity: 0.45;
+}
+
+.emojiTd {
+  font-size: 1.3rem;
+  width: 50px;
+  text-align: center;
+}
+
+.nameTd {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.categoryBadge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.priceTd {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--amber);
+}
+
+.statusToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all var(--transition);
+}
+.activeStatus {
+  background: var(--green-dim);
+  color: var(--green);
+  border-color: rgba(74,222,128,0.2);
+}
+.activeStatus:hover {
+  background: rgba(74,222,128,0.2);
+}
+.inactiveStatus {
+  background: var(--red-dim);
+  color: var(--red);
+  border-color: rgba(248,113,113,0.2);
+}
+.inactiveStatus:hover {
+  background: rgba(248,113,113,0.2);
+}
+
+.deleteBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+.deleteBtn:hover {
+  border-color: var(--red);
+  background: var(--red-dim);
+  color: var(--red);
 }

@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import { X, RefreshCw, Ticket, Check } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { X, RefreshCw, Ticket } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import { createOrder } from '../hooks/useApi'
+import { normalizeMatricule, isValidMatricule, MATRICULE_ERROR } from '../utils/matricule'
 import styles from './CheckoutModal.module.css'
 
 export default function CheckoutModal({ isOpen, onClose }) {
@@ -11,28 +12,48 @@ export default function CheckoutModal({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [ticket, setTicket] = useState(null)
+  const [orderTotal, setOrderTotal] = useState(0)
+
+  useEffect(() => {
+    if (isOpen) {
+      setStudentName('')
+      setStudentId('')
+      setError(null)
+      setTicket(null)
+    }
+  }, [isOpen])
 
   if (!isOpen) return null
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
     if (!studentName.trim()) {
       setError('Le nom de l\'étudiant est requis.')
       return
     }
 
+    const matriculeUpper = normalizeMatricule(studentId)
+    if (!isValidMatricule(matriculeUpper)) {
+      setError(MATRICULE_ERROR)
+      return
+    }
+
     setLoading(true)
     setError(null)
+    setOrderTotal(totalPrice)
 
     try {
       const payload = {
         studentName: studentName.trim(),
-        studentId: studentId.trim(),
+        studentId: matriculeUpper,
         items: items.map(i => ({ productId: i._id, quantity: i.quantity }))
       }
 
       const res = await createOrder(payload)
       if (res.success) {
+        localStorage.setItem('studentName', studentName.trim())
+        localStorage.setItem('studentId', matriculeUpper)
         setTicket(res.data.ticketNumber)
         clearCart()
       } else {
@@ -92,13 +113,14 @@ export default function CheckoutModal({ isOpen, onClose }) {
               </div>
 
               <div>
-                <label className={styles.label}>Matricule</label>
+                <label className={styles.label}>Matricule * (Format: 23ENSPM0426)</label>
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="Ex: 24ENS001 (Optionnel)"
+                  placeholder="Ex: 23ENSPM0426"
                   value={studentId}
                   onChange={e => setStudentId(e.target.value)}
+                  required
                   disabled={loading}
                 />
               </div>
@@ -124,7 +146,7 @@ export default function CheckoutModal({ isOpen, onClose }) {
             <div className={styles.ticketNumber}>{ticket}</div>
             <p className={styles.ticketName}>Client : {studentName}</p>
             <div className={styles.notice}>
-              Paiement physique de <strong>{totalPrice.toLocaleString('fr-FR')} FCFA</strong> lors du retrait.
+              Paiement physique de <strong>{orderTotal.toLocaleString('fr-FR')} FCFA</strong> lors du retrait.
             </div>
             <button className={styles.doneBtn} onClick={handleClose}>
               Retour au menu

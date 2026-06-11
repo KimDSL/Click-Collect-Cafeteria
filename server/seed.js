@@ -42,7 +42,7 @@ const seedDB = async () => {
     const testOrders = [
       {
         studentName: 'ADAMOU Fadilatou',
-        studentId: '24ENS001',
+        studentId: '23ENSPM0426',
         items: [
           { productId: sandwich._id, name: sandwich.name, price: sandwich.price, quantity: 1 },
           { productId: bissap._id, name: bissap.name, price: bissap.price, quantity: 1 }
@@ -52,7 +52,7 @@ const seedDB = async () => {
       },
       {
         studentName: 'KOFFI Koffi',
-        studentId: '24ENS002',
+        studentId: '24ENSPM0101',
         items: [
           { productId: riz._id, name: riz.name, price: riz.price, quantity: 2 },
           { productId: eau._id, name: eau.name, price: eau.price, quantity: 1 }
@@ -62,7 +62,7 @@ const seedDB = async () => {
       },
       {
         studentName: 'TCHOUTA Marc',
-        studentId: '24ENS003',
+        studentId: '24ENSPM0102',
         items: [
           { productId: beignets._id, name: beignets.name, price: beignets.price, quantity: 3 },
           { productId: cafe._id, name: cafe.name, price: cafe.price, quantity: 1 }

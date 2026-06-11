@@ -1,5 +1,5 @@
-import { ShoppingBag, ChefHat, LayoutDashboard, LogOut } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ShoppingBag, ChefHat, LayoutDashboard, LogOut, ClipboardList } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import styles from './Navbar.module.css'
 
@@ -16,14 +16,30 @@ export default function Navbar({ role, onLogout, onCartOpen }) {
 
         <nav className={styles.nav}>
           {role === 'student' ? (
-            <Link to="/" className={`${styles.navLink} ${styles.active}`}>
-              Menu
-            </Link>
+            <>
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
+              >
+                Menu
+              </NavLink>
+              <NavLink
+                to="/orders"
+                className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
+              >
+                <ClipboardList size={15} />
+                Mes Commandes
+              </NavLink>
+            </>
           ) : (
-            <Link to="/admin" className={`${styles.navLink} ${styles.active}`}>
+            <NavLink
+              to="/admin"
+              className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}
+            >
               <LayoutDashboard size={15} />
               Admin
-            </Link>
+            </NavLink>
           )}
 
           <button className={styles.logoutBtn} onClick={onLogout} aria-label="Quitter le mode">
