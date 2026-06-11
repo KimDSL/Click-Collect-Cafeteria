@@ -1,86 +1,149 @@
 # Click & Collect Cafétéria ENSPM
 
-Application Full-Stack (React / Express / MongoDB) pour la gestion de commandes en ligne et retrait avec paiement physique.
+Application Full-Stack (React / Express / MongoDB) pour la gestion de commandes en ligne, retrait et encaissement physique.
 
 ---
 
 ## Structure du Projet
 
-- **`/client`** : Application Front-End construite avec React, Vite et Lucide Icons.
-- **`/server`** : API REST Back-End construite avec Node.js, Express et Mongoose (MongoDB).
+- **`/client`** : Frontend React (Vite) — pages, composants, hooks et utilitaires.
+- **`/server`** : Backend Express — routes, modèles Mongoose et utilitaires.
+
+**Architecture du Projet**
+
+L'architecture suit un découpage simple frontend / backend avec des dossiers dédiés :
+
+```
+Click-Collect-Cafeteria/
+├─ client/             # Application React (Vite)
+│  ├─ src/
+│  │  ├─ components/   # Composants réutilisables (Navbar, Cart, ProductCard...)
+│  │  ├─ pages/        # Pages (Menu, AdminDashboard, LoginPortal)
+│  │  ├─ context/      # Providers et hooks de contexte (CartContext)
+│  │  ├─ hooks/        # Appels API centralisés (useApi.js)
+│  │  ├─ utils/        # Utilitaires (matricule.js)
+│  │  └─ main.jsx
+│  └─ package.json
+├─ server/             # API REST (Express + Mongoose)
+│  ├─ models/          # Schémas Mongoose (Order, Product)
+│  ├─ routes/          # Routes Express (/products, /orders)
+│  ├─ utils/           # Utilitaires partagés (matricule.js)
+│  └─ seed.js
+├─ README.md
+└─ package.json
+```
+
+Points clés :
+- `client/src/hooks/useApi.js` centralise les appels HTTP vers `/api`.
+- `server/routes/orders.js` contient la logique de création, recherche (par ticket) et filtrage sécurisé par `studentId`.
+- `server/models/Order.js` stocke un snapshot des articles au moment de la commande (nom, prix, quantité).
+
 
 ---
 
 ## Prérequis
 
-Assurez-vous d'avoir installé sur votre machine :
-- [Node.js](https://nodejs.org/) (version 18+)
-- [MongoDB Community Server](https://www.mongodb.com/try/download/community) lancé localement sur le port par défaut (27017)
+Installez sur votre machine :
+- `Node.js` (18+)
+- `MongoDB` (instance locale ou remote, accessible via `MONGO_URI`)
 
 ---
 
-## Installation et Configuration
+## Installation rapide
 
-### 1. Cloner le projet et installer les dépendances
-À la racine du projet, exécutez la commande suivante pour installer les dépendances du client et du serveur :
+1. Installer les dépendances (client + server) :
 ```bash
 npm run install:all
 ```
 
-### 2. Configurer les variables d'environnement
-Dans le dossier `/server`, créez un fichier `.env` à partir du modèle :
+2. Créer le fichier d'environnement pour le serveur :
 ```bash
 cd server
 cp .env.example .env
 ```
-Le fichier `.env` par défaut contient :
+Par défaut :
 ```env
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/cafeteria_enspm
 CLIENT_URL=http://localhost:5173
 ```
-Vous pouvez modifier ces valeurs selon votre configuration.
 
----
-
-## Initialiser la Base de Données
-
-Pour insérer le menu par défaut (plats, boissons, encas) dans MongoDB, lancez le script de peuplement depuis le dossier racine :
+3. Peupler la base de données (données de test) :
 ```bash
 npm run seed
 ```
 
 ---
 
-## Lancement de l'Application
+## Démarrage
 
-Vous devez démarrer le serveur (Back-End) et l'application (Front-End).
-
-### Démarrer le Serveur Back-End
-Depuis la racine :
+Démarrer le serveur :
 ```bash
 npm run dev:server
 ```
-Le serveur démarrera sur **http://localhost:5000**.
-
-### Démarrer le Client Front-End
-Depuis la racine :
+Démarrer le client :
 ```bash
 npm run dev:client
 ```
-L'application React sera accessible sur **http://localhost:5173**.
 
 ---
 
-## API Routes
+## Principales fonctionnalités (résumé)
+
+- Flux étudiant : sélectionner des articles, finaliser la commande (nom + matricule), recevoir un numéro de ticket.
+- Flux admin : tableau de bord avec gestion du menu et des commandes, encaissement par code ticket (recherche et validation du paiement).
+- Validation stricte du matricule (format `23ENSPM0426`) côté client et serveur.
+- Reconstitution immuable des articles d'une commande (snapshot des noms/prix au moment de la commande).
+
+---
+
+## Routes API (sélection)
 
 ### Produits
-- `GET /api/products` : Liste des produits disponibles (isAvailable: true).
-- `GET /api/products/all` : Liste complète des produits pour le gérant.
-- `POST /api/products` : Ajouter un produit au catalogue.
-- `PATCH /api/products/:id/availability` : Activer/Désactiver la disponibilité d'un produit.
+- `GET /api/products` — Produits disponibles (isAvailable = true).
+- `GET /api/products/all` — Tous les produits (admin).
+- `POST /api/products` — Ajouter un produit.
+- `PATCH /api/products/:id/availability` — Basculer disponibilité.
+- `DELETE /api/products/:id` — Supprimer un produit.
 
 ### Commandes
-- `POST /api/orders` : Créer une commande (avec snapshot nom et prix des produits).
-- `GET /api/orders` : Liste de toutes les commandes pour le gérant (AdminDashboard).
-- `PATCH /api/orders/:id/status` : Mettre à jour le statut d'une commande (En attente -> Pret -> Termine).
+- `POST /api/orders` — Créer une commande (body : `studentName`, `studentId`, `items` [{productId, quantity}]). Le serveur valide le matricule et stocke `studentId` normalisé.
+- `GET /api/orders` — Récupération filtrée : si `studentId` est fourni (`/api/orders?studentId=23ENSPM0426`) renvoie uniquement les commandes de cet étudiant; sinon renvoie toutes les commandes (usage admin).
+- `GET /api/orders/ticket/:ticketNumber` — Recherche d'une commande par numéro de ticket (ex. `#ABC123`).
+- `PATCH /api/orders/:id/status` — Mettre à jour le statut (`En attente`, `Pret`, `Termine`).
+- `DELETE /api/orders/:id` — Annuler une commande (seules les commandes `En attente` peuvent être supprimées).
+
+---
+
+## Flux et usages importants
+
+- Étudiant — Mes Commandes :
+	- L'étudiant saisit son matricule (format validé) dans l'onglet `Mes Commandes` pour voir uniquement ses propres commandes.
+	- Modifier/Annuler : l'interface permet de charger les articles d'une commande dans le panier (modification) ou d'annuler si `En attente`.
+
+- Admin — Encaissement :
+	- L'admin saisit le `ticketNumber` dans l'onglet `Commandes` pour retrouver la commande et valider le paiement (passage au statut `Termine`).
+
+---
+
+## Tests manuels suggérés
+
+- Créer une commande avec matricule invalide (ex. `12345`) → réponse d'erreur.
+- Créer une commande avec matricule valide (`23ENSPM0426`) → succès et ticket (ex. `#XYZ789`). Vérifier que le `totalPrice` sur le ticket correspond correctement.
+- En admin : rechercher un ticket via `Encaissement` → afficher la commande et valider le paiement.
+- Admin : ajouter/masquer/supprimer un produit via la gestion du menu.
+
+---
+
+## Notes de développement
+
+- L'utilitaire de matricule est partagé côté serveur (`server/utils/matricule.js`) et côté client (`client/src/utils/matricule.js`).
+- Le schéma `Order` exige désormais `studentId` et applique une regex de validation.
+- Pour recharger les données de test avec les matricules fournis, exécuter :
+```bash
+node server/seed.js
+```
+
+---
+
+Si vous voulez que j'ajoute une section « Contribution » ou un guide de déploiement, dites-le et je l'ajoute.
