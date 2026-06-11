@@ -23,7 +23,7 @@ export default function Menu({ onCartOpen }) {
   const [search, setSearch] = useState('')
 
   const [studentIdInput, setStudentIdInput] = useState(localStorage.getItem('studentId') || '')
-  const [studentId, setStudentId] = useState(localStorage.getItem('studentId') || '')
+  const [studentId, setStudentId] = useState('')
   const [orders, setOrders] = useState([])
   const [loadingOrders, setLoadingOrders] = useState(false)
   const [ordersError, setOrdersError] = useState(null)
