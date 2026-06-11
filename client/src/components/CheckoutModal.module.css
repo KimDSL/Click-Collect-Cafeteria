@@ -144,7 +144,6 @@
   animation: spin 1s linear infinite;
 }
 
-/* Success state */
 .success {
   display: flex;
   flex-direction: column;

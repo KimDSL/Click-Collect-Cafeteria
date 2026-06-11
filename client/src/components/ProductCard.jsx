@@ -4,9 +4,9 @@ import { useCart } from '../context/CartContext'
 import styles from './ProductCard.module.css'
 
 const CATEGORY_EMOJI = {
-  'Plat':    '🍽️',
+  'Plat': '🍽️',
   'Boisson': '🥤',
-  'Encas':   '🥪',
+  'Encas': '🥪',
 }
 
 export default function ProductCard({ product }) {

@@ -5,40 +5,40 @@ import styles from './AdminDashboard.module.css'
 
 const STATUS_CONFIG = {
   'En attente': {
-    label:   'En attente',
-    next:    'Pret',
+    label: 'En attente',
+    next: 'Pret',
     nextLabel: 'Marquer Prêt',
-    color:   styles.statusPending,
-    icon:    <Clock size={14} />,
+    color: styles.statusPending,
+    icon: <Clock size={14} />,
   },
   'Pret': {
-    label:   'Prêt à récupérer',
-    next:    'Termine',
+    label: 'Prêt à récupérer',
+    next: 'Termine',
     nextLabel: 'Terminer',
-    color:   styles.statusReady,
-    icon:    <PackageCheck size={14} />,
+    color: styles.statusReady,
+    icon: <PackageCheck size={14} />,
   },
   'Termine': {
-    label:   'Terminée',
-    next:    null,
-    color:   styles.statusDone,
-    icon:    <CheckCircle2 size={14} />,
+    label: 'Terminée',
+    next: null,
+    color: styles.statusDone,
+    icon: <CheckCircle2 size={14} />,
   },
 }
 
 function timeAgo(dateStr) {
   const diff = (Date.now() - new Date(dateStr)) / 1000
-  if (diff < 60)    return `${Math.floor(diff)}s`
-  if (diff < 3600)  return `${Math.floor(diff/60)}min`
+  if (diff < 60) return `${Math.floor(diff)}s`
+  if (diff < 3600) return `${Math.floor(diff/60)}min`
   return `${Math.floor(diff/3600)}h`
 }
 
 export default function AdminDashboard() {
-  const [orders,    setOrders]    = useState([])
-  const [loading,   setLoading]   = useState(true)
-  const [error,     setError]     = useState(null)
-  const [updating,  setUpdating]  = useState({})
-  const [filter,    setFilter]    = useState('all')
+  const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [updating, setUpdating] = useState({})
+  const [filter, setFilter] = useState('all')
 
   const load = useCallback(() => {
     setLoading(true)
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
     try {
       const updated = await updateStatus(order._id, cfg.next)
       setOrders(prev =>
-        prev.map(o => o._id === order._id ? { ...o, status: updated.status } : o)
+        prev.map(o => o._id === order._id ? { ...o, status: updated.data.status } : o)
       )
     } catch {
       alert('Erreur lors de la mise à jour du statut.')
@@ -69,10 +69,10 @@ export default function AdminDashboard() {
   }
 
   const stats = {
-    total:    orders.length,
-    pending:  orders.filter(o => o.status === 'En attente').length,
-    ready:    orders.filter(o => o.status === 'Pret').length,
-    done:     orders.filter(o => o.status === 'Termine').length,
+    total: orders.length,
+    pending: orders.filter(o => o.status === 'En attente').length,
+    ready: orders.filter(o => o.status === 'Pret').length,
+    done: orders.filter(o => o.status === 'Termine').length,
   }
 
   const visible = filter === 'all'
@@ -113,10 +113,10 @@ export default function AdminDashboard() {
 
       <div className={styles.filterRow}>
         {[
-          { key: 'all',        label: 'Toutes' },
+          { key: 'all', label: 'Toutes' },
           { key: 'En attente', label: 'En attente' },
-          { key: 'Pret',       label: 'Prêtes' },
-          { key: 'Termine',    label: 'Terminées' },
+          { key: 'Pret', label: 'Prêtes' },
+          { key: 'Termine', label: 'Terminées' },
         ].map(f => (
           <button
             key={f.key}
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
               <div className={styles.cardTop}>
                 <div>
                   <p className={styles.studentName}>{order.studentName}</p>
-                  <p className={styles.orderId}>#{order._id?.slice(-6).toUpperCase()}</p>
+                  <p className={styles.orderId}>{order.ticketNumber || `#${order._id?.slice(-6).toUpperCase()}`}</p>
                 </div>
                 <span className={`${styles.statusBadge} ${cfg.color}`}>
                   {cfg.icon}
@@ -163,7 +163,7 @@ export default function AdminDashboard() {
               <ul className={styles.itemsList}>
                 {order.items?.map((item, i) => (
                   <li key={i} className={styles.orderItem}>
-                    <span>{item.productId?.name || 'Article'}</span>
+                    <span>{item.name || 'Article'}</span>
                     <span>× {item.quantity}</span>
                   </li>
                 ))}

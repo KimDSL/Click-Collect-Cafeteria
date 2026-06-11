@@ -7,11 +7,11 @@ import styles from './Menu.module.css'
 const CATEGORIES = ['Tous', 'Plat', 'Boisson', 'Encas']
 
 export default function Menu() {
-  const [products, setProducts]     = useState([])
-  const [loading, setLoading]       = useState(true)
-  const [error, setError]           = useState(null)
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [activeCategory, setActive] = useState('Tous')
-  const [search, setSearch]         = useState('')
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     getProducts()

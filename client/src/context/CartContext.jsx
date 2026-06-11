@@ -45,10 +45,10 @@ function cartReducer(state, action) {
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState)
 
-  const addItem    = (product) => dispatch({ type: 'ADD_ITEM', product })
-  const removeItem = (id)      => dispatch({ type: 'REMOVE_ITEM', id })
-  const updateQty  = (id, qty) => dispatch({ type: 'UPDATE_QTY', id, qty })
-  const clearCart  = ()        => dispatch({ type: 'CLEAR' })
+  const addItem = (product) => dispatch({ type: 'ADD_ITEM', product })
+  const removeItem = (id) => dispatch({ type: 'REMOVE_ITEM', id })
+  const updateQty = (id, qty) => dispatch({ type: 'UPDATE_QTY', id, qty })
+  const clearCart = () => dispatch({ type: 'CLEAR' })
 
   const totalItems = state.items.reduce((s, i) => s + i.quantity, 0)
   const totalPrice = state.items.reduce((s, i) => s + i.price * i.quantity, 0)

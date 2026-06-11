@@ -8,7 +8,7 @@ import Menu from './pages/Menu'
 import AdminDashboard from './pages/AdminDashboard'
 
 export default function App() {
-  const [cartOpen,     setCartOpen]     = useState(false)
+  const [cartOpen, setCartOpen] = useState(false)
   const [checkoutOpen, setCheckoutOpen] = useState(false)
 
   const openCheckout = () => {
@@ -22,7 +22,7 @@ export default function App() {
         <Navbar onCartOpen={() => setCartOpen(true)} />
 
         <Routes>
-          <Route path="/"      element={<Menu />} />
+          <Route path="/" element={<Menu />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
 
