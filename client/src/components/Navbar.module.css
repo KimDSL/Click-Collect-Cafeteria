@@ -41,7 +41,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   margin-left: auto;
 }
 
@@ -64,6 +64,27 @@
 .navLink.active {
   color: var(--amber);
   background: var(--amber-glow);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.logoutBtn:hover {
+  color: var(--red);
+  background: var(--red-dim);
+  border-color: rgba(248,113,113,0.2);
 }
 
 .cartBtn {
