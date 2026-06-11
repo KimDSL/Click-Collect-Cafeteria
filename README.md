@@ -9,7 +9,7 @@ Application Full-Stack (React / Express / MongoDB) pour la gestion de commandes 
 - **`/client`** : Frontend React (Vite) — pages, composants, hooks et utilitaires.
 - **`/server`** : Backend Express — routes, modèles Mongoose et utilitaires.
 
-**Architecture du Projet**
+## Architecture du Projet
 
 L'architecture suit un découpage simple frontend / backend avec des dossiers dédiés :
 
@@ -44,8 +44,8 @@ Points clés :
 ## Prérequis
 
 Installez sur votre machine :
-- `Node.js` (18+)
-- `MongoDB` (instance locale ou remote, accessible via `MONGO_URI`)
+- `Node.js`
+- `MongoDB` (instance locale)
 
 ---
 
@@ -60,12 +60,6 @@ npm run install:all
 ```bash
 cd server
 cp .env.example .env
-```
-Par défaut :
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/cafeteria_enspm
-CLIENT_URL=http://localhost:5173
 ```
 
 3. Peupler la base de données (données de test) :
@@ -88,7 +82,7 @@ npm run dev:client
 
 ---
 
-## Principales fonctionnalités (résumé)
+## Principales fonctionnalités
 
 - Flux étudiant : sélectionner des articles, finaliser la commande (nom + matricule), recevoir un numéro de ticket.
 - Flux admin : tableau de bord avec gestion du menu et des commandes, encaissement par code ticket (recherche et validation du paiement).
@@ -144,6 +138,6 @@ npm run dev:client
 node server/seed.js
 ```
 
----
+## Clonnage du projet
 
-Si vous voulez que j'ajoute une section « Contribution » ou un guide de déploiement, dites-le et je l'ajoute.
+Clonner le projet avec l'URL https://github.com/KimDSL/Click-Collect-Cafeteria.git
