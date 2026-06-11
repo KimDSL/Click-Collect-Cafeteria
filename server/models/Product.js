@@ -17,18 +17,10 @@ const productSchema = new mongoose.Schema(
       enum: ['Plat', 'Boisson', 'Encas'],
       default: 'Plat',
     },
-    emoji: {
-      type: String,
-      default: '🍽️',
-    },
-    isAvailable: {
-      type: Boolean,
-      default: true,
-    },
+    emoji: { type: String, default: '🍽️' },
+    isAvailable: { type: Boolean, default: true },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('Product', productSchema);
